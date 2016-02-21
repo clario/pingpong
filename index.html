@@ -1,0 +1,206 @@
+<html>
+<head>
+<script src="http://fb.me/react-0.13.0.js"></script>
+<script src="http://fb.me/JSXTransformer-0.13.0.js"></script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+
+<!-- Latest compiled and minified JavaScript -->
+
+<!-- Latest compiled and minified CSS -->
+
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+</head>
+<style>
+  body{
+    margin: 0px;
+  }
+
+ .left {
+    background: green;
+    height: 300px;
+    color: white;
+  font-size: 2em;
+
+}
+
+.red {
+  background: red;
+  height: 300px;
+  color: white;
+  font-size: 2em;
+}
+
+.container-fluid {
+    position:absolute;
+    bottom:0;
+    left:0;
+    width: 100%;
+}
+
+
+</style>
+
+<body>
+  <h1>Ping Pongaaa</h1>
+  <div id="reg"/>
+
+<script src="http://cdn.socket.io/socket.io-1.3.4.js"></script>
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+
+
+
+<script type="text/javascript">
+
+
+    var socket = io('192.168.100.186:5000');
+
+
+    console.log("starter opp");
+   
+
+
+
+
+</script>
+
+  <script type="text/jsx">
+
+ 
+      
+      var App = React.createClass({
+           getInitialState: function() {
+           
+                return {
+                     userArray : []
+                };
+            },
+            componentDidMount: function() {
+                     var _this = this;
+                socket.on('currentState',function(data){
+                    console.log("setting " + data[0])
+                    _this.setState({userArray : data});
+                } );
+
+                 socket.emit('getCurrentState');
+            },
+          render: function() {
+               
+              return (
+                <div>
+                <Score user={this.state.userArray}/>
+                  <RegComponent user={this.state.userArray} />
+                  
+                  </div >
+              );
+          }
+      
+      });
+
+
+
+      
+      var Score = React.createClass({
+
+
+
+          render: function() {
+              return (
+
+                  <div >
+                    <h1>{this.props.user[0]}</h1>
+                   <h1>{this.props.user[1]}</h1>
+                </div>  );
+          }
+      
+      });
+      
+
+
+      var RegComponent = React.createClass({
+            getDefaultProps: function() {
+                return {   
+                    user :["",""]            
+                };
+            },
+            getInitialState: function() {
+                return {
+                    playerNames :["",""]
+                };
+            },
+            componentDidMount: function(){
+                console.log("Denn " + this.props.user);
+            },
+    
+            componentDidMount: function() {
+                
+            }, updatePlayerName1 : function(event){
+                this.updateNames(event.target.value,0);
+            },
+             updatePlayerName2 : function(event){
+               this.updateNames(event.target.value,1);
+            },
+            updateNames : function(name,id){
+                var array = this.state.playerNames;
+                array[id] = name;
+                this.emitNames(id);
+                this.setState(array);
+
+            },
+
+
+            updateScore1 : function(event){
+                this.emitScore(1);
+            },
+            updateScore2 : function(event){
+                this.emitScore(2);
+            },
+            emitNames :function(id){
+                console.log("emmiting name "+ this.state.playerNames[id] + id)
+                socket.emit('playerNameChanged',{id: id, name: this.state.playerNames[id]});
+
+            },
+
+            emitScore : function(playerId){
+                console.log("emitting score " + playerId);
+                socket.emit('score',{id:playerId});
+            },
+            render: function() {
+              return (
+                  <div >
+              
+                  <input type="text" onChange={this.updatePlayerName1} value={this.state.playerNames[0]} placeholder="Player 1 name"/>
+                  <br/>
+                  <input type="text" onChange={this.updatePlayerName2} value={this.state.playerNames[1]}  placeholder="Player 2 name"/>
+                  <br/>
+                  
+  <br/>
+               <div className="container-fluid">
+                 <div className="row">
+                    <div className="col-xs-6 left" onClick={this.updateScore1}>Player 1</div>
+                    <div className="col-xs-6 red" onClick={this.updateScore2} >Player 2</div>
+                </div>
+                </div>
+              
+           
+
+          </div>
+              );
+          }
+      
+      });
+      
+  
+        
+      
+        React.render(<App/>,reg);
+  </script>
+<audio id="audio" src="http://www.soundjay.com/button/beep-21.mp3" preload="auto"  ></audio>
+</body>
+
+</html>
