@@ -14,11 +14,12 @@ console.log("Server starting on port "+port+".");
 
 
 var players = [
-    {
+    {   id: 1,
         name : "Dataloy Player1 ",
         score: 0
     },
     {
+        id: 2,
         name : "Dataloy Player2 ",
         score: 0
     }
@@ -35,7 +36,7 @@ io.on('connection', function (socket) {
     
 
     socket.on("getCurrentState",function(){
-
+         console.log(players);
         socket.emit("currentState",players);
     });
 
@@ -43,6 +44,7 @@ io.on('connection', function (socket) {
     socket.on('score', function (data) {
        if(data.id === 1 || data.id === 2 ){
             players[data.id-1].score++;
+
             io.emit("currentState", players);
         }
     });
