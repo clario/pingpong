@@ -61,19 +61,25 @@
 }
 
 #score {
+    border: 15px solid white;
     background: black;
     color: white;
     height: 100%;
-    padding: 200px 100px 50px 50px;
+    padding: 130px 100px 50px 50px;
  
 
 }
 
 #score h1  {
-      font-size: 10vw !important; 
+      font-size: 12vw !important; 
       margin: 0px;
     padding: 0px;
 
+}
+
+.scoreResult{
+    border: 5px solid white;
+    padding: 10px 5px 5px 5px;
 }
 
 
@@ -163,11 +169,11 @@
           return (
 
             <div id="score">
-
-                {this.props.user.map(function(result) {
-                return <h1 key={result.id}>{result.name} - {result.score}</h1>;
+                <div className="scoreResult">
+                     {this.props.user.map(function(result) {
+                        return <h1 key={result.id}>{result.name} - {result.score}</h1>;
                 })}
-
+                </div>
             </div>
            
             );
