@@ -1,6 +1,11 @@
 <html>
 <head>
-<script src="http://fb.me/react-0.13.0.js"></script>
+<script src="https://fb.me/react-0.14.7.min.js"
+        integrity="sha384-zTm/dblzLXQNp3CgY+hfaC/WJ6h4XtNrePh2CW2+rO9GPuNiPb9jmthvAL+oI/dQ"
+        crossorigin="anonymous"></script>
+<script src="https://fb.me/react-dom-0.14.7.min.js"
+        integrity="sha384-ntqCsHbLdMxT352UbhPbT7fqjE8xi4jLmQYQa8mYR+ylAapbXRfdsDweueDObf7m"
+        crossorigin="anonymous"></script>
 <script src="http://fb.me/JSXTransformer-0.13.0.js"></script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -13,6 +18,7 @@
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 </head>
 <style>
+ 
   body{
     margin: 0px;
   }
@@ -61,17 +67,11 @@
     var socket = io();
 
 
-    console.log("starter opp");
-   
-
-
-
 
 </script>
 
   <script type="text/jsx">
 
- 
       
       var App = React.createClass({
            getInitialState: function() {
@@ -93,10 +93,9 @@
                
               return (
                 <div>
-                <Score user={this.state.userArray}/>
-                  <RegComponent user={this.state.userArray} />
-                  
-                  </div >
+                    <Score user={this.state.userArray}/>
+                    <RegComponent user={this.state.userArray} />
+                </div >
               );
           }
       
@@ -107,15 +106,13 @@
       
       var Score = React.createClass({
 
-
-
           render: function() {
               return (
 
                   <div >
                     <h1>{this.props.user[0]}</h1>
                    <h1>{this.props.user[1]}</h1>
-                </div>  );
+                </div> );
           }
       
       });
@@ -153,7 +150,6 @@
 
             },
 
-
             updateScore1 : function(event){
                 this.emitScore(1);
             },
@@ -182,8 +178,8 @@
   <br/>
                <div className="container-fluid">
                  <div className="row">
-                    <div className="col-xs-6 left" onClick={this.updateScore1}>Player 1</div>
-                    <div className="col-xs-6 red" onClick={this.updateScore2} >Player 2</div>
+                    <div className="col-xs-6 left" onTouchStart={this.updateScore1}>Player 1</div>
+                    <div className="col-xs-6 red" onTouchStart={this.updateScore2} >Player 2</div>
                 </div>
                 </div>
               
@@ -197,10 +193,9 @@
       
   
         
-      
-        React.render(<App/>,reg);
+       ReactDOM.render(<App/>,reg);
+     
   </script>
-<audio id="audio" src="http://www.soundjay.com/button/beep-21.mp3" preload="auto"  ></audio>
 </body>
 
 </html>
