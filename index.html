@@ -43,7 +43,6 @@
     width: 100%;
 }
 
-@media()
 
 
 </style>
@@ -77,29 +76,39 @@
            getInitialState: function() {
            
                 return {
-                     userArray : []
+                     userArray : [],
+                     isphone : false
                 };
             },
             componentDidMount: function() {
+                var isPhone;
                 if (/Mobi/.test(navigator.userAgent)) {
-                alert("you are on the phone")
+                    isPhone = true;
                 }else{
-                    alert("this is not phone!")
+                    isPhone = false;
                 }
-                     var _this = this;
+                var _this = this;
+                
                 socket.on('currentState',function(data){
+                    _this.setState({userArray : data, isphone : isPhone});
+                } 
 
-                    _this.setState({userArray : data});
-                } );
+                );
 
-                 socket.emit('getCurrentState');
+                socket.emit('getCurrentState');
             },
           render: function() {
+             if (this.state.isPhone) {
+              view = <RegComponent user={this.state.userArray} />;
+            } else {
+              view = <Score user={this.state.userArray}/>;
+            }
+
                
               return (
                 <div>
-                    <Score user={this.state.userArray}/>
-                    <RegComponent user={this.state.userArray} />
+           
+                    {view}
                 </div >
               );
           }
