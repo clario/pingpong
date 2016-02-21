@@ -77,7 +77,7 @@
            
                 return {
                      userArray : [],
-                     isphone : false
+                     isPhone : false
                 };
             },
             componentDidMount: function() {
@@ -90,7 +90,7 @@
                 var _this = this;
                 
                 socket.on('currentState',function(data){
-                    _this.setState({userArray : data, isphone : isPhone});
+                    _this.setState({userArray : data, isPhone : isPhone});
                 } 
 
                 );
@@ -98,7 +98,9 @@
                 socket.emit('getCurrentState');
             },
           render: function() {
-             if (this.state.isPhone) {
+            var _this = this;
+            var view;
+            if (_this.state.isPhone) {
               view = <RegComponent user={this.state.userArray} />;
             } else {
               view = <Score user={this.state.userArray}/>;
@@ -173,6 +175,7 @@
             },
 
             updateScore1 : function(event){
+             
                 this.emitScore(1);
             },
             updateScore2 : function(event){
