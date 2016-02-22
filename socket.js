@@ -15,12 +15,12 @@ console.log("Server starting on port "+port+".");
 
 var players = [
     {   id: 1,
-        name : "Dataloy Player1 ",
+        name : "Player 1 ",
         score: 0
     },
     {
         id: 2,
-        name : "Dataloy Player2 ",
+        name : "Player 2 ",
         score: 0
     }
 
