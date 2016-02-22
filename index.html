@@ -4,7 +4,7 @@
    ></script>
 <script src="https://fb.me/react-dom-0.14.0.js"
         ></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/6.1.19/browser.js"></script>
+
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -109,159 +109,165 @@
 
 </script>
 
-  <script type="text/jsx">
+  <script type="text/javascript">
 
       
-      var App = React.createClass(
-      {
-           getInitialState: function() {
-           
-                return {
-                     userArray : [],
-                     isPhone : false
-                };
-            },
-            componentDidMount: function() {
-                var isPhone;
-                if (/Mobi/.test(navigator.userAgent)) {
-                    isPhone = true;
-                }else{
-                    isPhone = false;
-                }
-                var _this = this;
-                
-                socket.on('currentState',function(data){
-                    _this.setState({userArray : data, isPhone : isPhone});
-                } 
+    'use strict';
 
-                );
+var App = React.createClass({
+    displayName: 'App',
 
-                socket.emit('getCurrentState');
-            },
-          render: function() {
-            var _this = this;
-            var view;
-            if (_this.state.isPhone) {
-              view = <RegComponent />;
-            } else {
-              view = <Score user={this.state.userArray}/>;
-            }
-   
-        return (
-          <div>
-             {view}
-          </div >
-              );
-          }
-      
-      });
+    getInitialState: function getInitialState() {
 
-      
-      var Score = React.createClass({
-
-        getDefaultProps: function() {
-            return {
-                user : ["1","2"]
-            };
-        },
-
-        render: function() {
-          return (
-
-            <div id="score">
-                <div className="scoreResult">
-                     {this.props.user.map(function(result) {
-                        return <h1 key={result.id}>{result.name} - {result.score}</h1>;
-                })}
-                </div>
-            </div>
-           
-            );
+        return {
+            userArray: [],
+            isPhone: false
+        };
+    },
+    componentDidMount: function componentDidMount() {
+        var isPhone;
+        if (/Mobi/.test(navigator.userAgent)) {
+            isPhone = true;
+        } else {
+            isPhone = false;
         }
-      
-      });
-      
+        var _this = this;
 
+        socket.on('currentState', function (data) {
+            _this.setState({ userArray: data, isPhone: isPhone });
+        });
 
-      var RegComponent = React.createClass({
-            getDefaultProps: function() {
-                return {   
-                    user :["",""]            
-                };
-            },
-            getInitialState: function() {
-                return {
-                    playerNames : ["",""]
-                };
+        socket.emit('getCurrentState');
+    },
+    render: function render() {
+        var _this = this;
+        var view;
+        if (_this.state.isPhone) {
+            view = React.createElement(RegComponent, null);
+        } else {
+            view = React.createElement(Score, { user: this.state.userArray });
+        }
 
-            },
-          
+        return React.createElement(
+            'div',
+            null,
+            view
+        );
+    }
 
-            componentDidMount: function(){
-            
-               
-            },
-        
-            updatePlayerName1 : function(event){
-                this.updateNames(event.target.value,0);
-            },
-             updatePlayerName2 : function(event){
-               this.updateNames(event.target.value,1);
-            },
-            updateNames : function(name,id){
-                var array = this.state.playerNames;
-                array[id] = name;
-                this.emitNames(id);
-                this.setState(array);
+});
 
-            },
+var Score = React.createClass({
+    displayName: 'Score',
 
-            updateScore1 : function(event){
-             
-                this.emitScore(1);
-            },
-            updateScore2 : function(event){
-                this.emitScore(2);
-            },
-            emitNames :function(id){
-                console.log("emmiting name "+ this.state.playerNames[id] + id)
-                socket.emit('playerNameChanged',{id: id, name: this.state.playerNames[id]});
+    getDefaultProps: function getDefaultProps() {
+        return {
+            user: ["1", "2"]
+        };
+    },
 
-            },
+    render: function render() {
+        return React.createElement(
+            'div',
+            { id: 'score' },
+            React.createElement(
+                'div',
+                { className: 'scoreResult' },
+                this.props.user.map(function (result) {
+                    return React.createElement(
+                        'h1',
+                        { key: result.id },
+                        result.name,
+                        ' - ',
+                        result.score
+                    );
+                })
+            )
+        );
+    }
 
-            emitScore : function(playerId){
-                console.log("emitting score " + playerId);
-                socket.emit('score',{id:playerId});
-            },
-            render: function() {
-              return (
-                  <div >
-              
-                  <input type="text" onChange={this.updatePlayerName1} value={this.state.playerNames[0]} placeholder="Player 1 name"/>
-                  <br/>
-                  <input type="text" onChange={this.updatePlayerName2} value={this.state.playerNames[1]}  placeholder="Player 2 name"/>
-                  <br/>
-                  
-  <br/>
-               <div className="container-fluid">
+});
 
-                 <div className="row">
-                    <div className="col-xs-6 left" onTouchStart={this.updateScore1}>{this.state.playerNames[0]} </div>
-                    <div className="col-xs-6 red" onTouchStart={this.updateScore2} >{this.state.playerNames[1]} </div>
-                </div>
-                </div>
-              
-           
+var RegComponent = React.createClass({
+    displayName: 'RegComponent',
 
-          </div>
-              );
-          }
-      
-      });
-      
-  
-        
-       ReactDOM.render(<App/>,reg);
+    getDefaultProps: function getDefaultProps() {
+        return {
+            user: ["", ""]
+        };
+    },
+    getInitialState: function getInitialState() {
+        return {
+            playerNames: ["", ""]
+        };
+    },
+
+    componentDidMount: function componentDidMount() {},
+
+    updatePlayerName1: function updatePlayerName1(event) {
+        this.updateNames(event.target.value, 0);
+    },
+    updatePlayerName2: function updatePlayerName2(event) {
+        this.updateNames(event.target.value, 1);
+    },
+    updateNames: function updateNames(name, id) {
+        var array = this.state.playerNames;
+        array[id] = name;
+        this.emitNames(id);
+        this.setState(array);
+    },
+
+    updateScore1: function updateScore1(event) {
+
+        this.emitScore(1);
+    },
+    updateScore2: function updateScore2(event) {
+        this.emitScore(2);
+    },
+    emitNames: function emitNames(id) {
+        console.log("emmiting name " + this.state.playerNames[id] + id);
+        socket.emit('playerNameChanged', { id: id, name: this.state.playerNames[id] });
+    },
+
+    emitScore: function emitScore(playerId) {
+        console.log("emitting score " + playerId);
+        socket.emit('score', { id: playerId });
+    },
+    render: function render() {
+        return React.createElement(
+            'div',
+            null,
+            React.createElement('input', { type: 'text', onChange: this.updatePlayerName1, value: this.state.playerNames[0], placeholder: 'Player 1 name' }),
+            React.createElement('br', null),
+            React.createElement('input', { type: 'text', onChange: this.updatePlayerName2, value: this.state.playerNames[1], placeholder: 'Player 2 name' }),
+            React.createElement('br', null),
+            React.createElement('br', null),
+            React.createElement(
+                'div',
+                { className: 'container-fluid' },
+                React.createElement(
+                    'div',
+                    { className: 'row' },
+                    React.createElement(
+                        'div',
+                        { className: 'col-xs-6 left', onTouchStart: this.updateScore1 },
+                        this.state.playerNames[0],
+                        ' '
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'col-xs-6 red', onTouchStart: this.updateScore2 },
+                        this.state.playerNames[1],
+                        ' '
+                    )
+                )
+            )
+        );
+    }
+
+});
+
+ReactDOM.render(React.createElement(App, null), reg);
      
   </script>
 </body>
