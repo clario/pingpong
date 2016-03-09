@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 </head>
 <style>
- 
+
   body{
     margin: 0px;
     padding: 0px;
@@ -30,7 +30,7 @@
     -webkit-user-select: none;  /* Chrome all / Safari all */
   -moz-user-select: none;     /* Firefox all */
   -ms-user-select: none;      /* IE 10+ */
-  user-select: none; 
+  user-select: none;
 
 }
 
@@ -50,7 +50,7 @@
     -webkit-user-select: none;  /* Chrome all / Safari all */
   -moz-user-select: none;     /* Firefox all */
   -ms-user-select: none;      /* IE 10+ */
-  user-select: none; 
+  user-select: none;
 }
 
 .container-fluid {
@@ -66,12 +66,12 @@
     color: white;
     height: 100%;
     padding: 240px 100px 50px 50px;
- 
+
 
 }
 
 #score h1  {
-      font-size: 10vw !important; 
+      font-size: 10vw !important;
       margin: 0px;
     padding: 0px;
 
@@ -96,7 +96,7 @@
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-  
+
 
 
 
@@ -111,7 +111,7 @@
 
   <script type="text/javascript">
 
-      
+
     'use strict';
 
 var App = React.createClass({
@@ -228,6 +228,10 @@ var RegComponent = React.createClass({
         console.log("emmiting name " + this.state.playerNames[id] + id);
         socket.emit('playerNameChanged', { id: id, name: this.state.playerNames[id] });
     },
+    restart: function emitNames(id) {
+    
+        socket.emit('restart');
+    },
 
     emitScore: function emitScore(playerId) {
         console.log("emitting score " + playerId);
@@ -241,6 +245,9 @@ var RegComponent = React.createClass({
             React.createElement('br', null),
             React.createElement('input', { type: 'text', onChange: this.updatePlayerName2, value: this.state.playerNames[1], placeholder: 'Player 2 name' }),
             React.createElement('br', null),
+
+            React.createElement('input', { type: 'button', onClick: this.restart, value: "Restart" }),
+
             React.createElement('br', null),
             React.createElement(
                 'div',
@@ -268,7 +275,7 @@ var RegComponent = React.createClass({
 });
 
 ReactDOM.render(React.createElement(App, null), reg);
-     
+
   </script>
 </body>
 

@@ -33,7 +33,7 @@ var players = [
 io.on('connection', function (socket) {
     console.log("Connection established");
 
-    
+
 
     socket.on("getCurrentState",function(){
          console.log(players);
@@ -49,20 +49,34 @@ io.on('connection', function (socket) {
         }
     });
 
+    socket.on('restart', function (data) {
+
+            clearScore();
+            console.log("restarting! " + players);
+            io.emit("currentState", players);
+
+
+    });
+
+
+    function clearScore(){
+      players[0].score = 0;
+      players[1].score = 0;
+    }
 
      socket.on('playerNameChanged', function (data) {
         console.log("Plauer name " + JSON.stringify(data));
         var name = data.name;
         var id = data.id;
         players[id].name = name;
-     
+
         io.emit("currentState", players);
-        
+
     });
 
 
 
 
- 
+
 
 });
